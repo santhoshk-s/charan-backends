@@ -1,6 +1,7 @@
 const multer = require("multer");
 const mongoose = require("mongoose");
 const workshopModel = require("../../Models/workshopModel/Workshopmodel");
+const workshop = require("../../Models/workshopModel/Workshopmodel");
 
 let bucket;
 mongoose.connection.once("open", () => {
@@ -46,6 +47,56 @@ exports.createWorkshop = async (req, res) => {
       });
     });
   } catch (error) {
-    res.status(500).json({ error: "Error saving workshop", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error saving workshop", details: error.message });
+  }
+};
+
+exports.getWorkshops = async (req, res) => {
+  try {
+    const workshops = await workshop.find();
+    res.status(200).json({ workshops });
+  } catch (error) {
+    console.error("Error fetching workshop:", error);
+    res
+      .status(500)
+      .json({ error: "Error fetching workshop", details: error.message });
+  }
+};
+
+// Get an image by filename
+exports.getImage = (req, res) => {
+  const { filename } = req.params;
+  console.log(filename);
+  // console.log('Fetching image:', filename);
+
+  const downloadStream = bucket.openDownloadStreamByName(filename);
+
+  downloadStream.on("data", (chunk) => {
+    res.write(chunk);
+  });
+
+  downloadStream.on("end", () => {
+    res.end();
+  });
+
+  downloadStream.on("error", (error) => {
+    console.error("Error fetching image:", error);
+    res.status(404).json({ error: "Image not found" });
+  });
+};
+exports.getWorkshopById = async (req, res) => {
+  try {
+    const workshop = await workshop.findById(req.params.id);
+    if (!workshop) {
+      return res.status(404).json({ error: "workshop not found" });
+    }
+    res.status(200).json({ product });
+  } catch (error) {
+    console.error("Error fetching workshop:", error);
+    res
+      .status(500)
+      .json({ error: "Error fetching workshop", details: error.message });
   }
 };
