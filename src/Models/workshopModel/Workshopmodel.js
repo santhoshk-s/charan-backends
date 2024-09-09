@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const workshopSchema = mongoose.Schema({
   workshopname: {
-    tyoe: String,
+    type: String,
   },
   date: {
     type: String,
@@ -23,5 +23,5 @@ const workshopSchema = mongoose.Schema({
   logoId: mongoose.Schema.Types.ObjectId,
 });
 
-const workshop = mongoose.model("workshopform", workshopSchema);
+const workshop = mongoose.model("workshop", workshopSchema);
 module.exports = workshop;

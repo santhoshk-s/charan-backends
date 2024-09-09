@@ -1,6 +1,5 @@
 const multer = require("multer");
 const mongoose = require("mongoose");
-const workshopModel = require("../../Models/workshopModel/Workshopmodel");
 const workshop = require("../../Models/workshopModel/Workshopmodel");
 
 let bucket;
@@ -27,7 +26,7 @@ exports.createWorkshop = async (req, res) => {
       uploadStream.end(req.file.buffer);
 
       uploadStream.on("finish", async () => {
-        const newWorkshop = new workshopModel({
+        const newWorkshop = new workshop({
           logo: `uploads/${req.file.originalname}`,
           workshopname,
           date,
@@ -68,8 +67,6 @@ exports.getWorkshops = async (req, res) => {
 // Get an image by filename
 exports.getImage = (req, res) => {
   const { filename } = req.params;
-  console.log(filename);
-  // console.log('Fetching image:', filename);
 
   const downloadStream = bucket.openDownloadStreamByName(filename);
 
@@ -88,15 +85,13 @@ exports.getImage = (req, res) => {
 };
 exports.getWorkshopById = async (req, res) => {
   try {
-    const workshop = await workshop.findById(req.params.id);
-    if (!workshop) {
-      return res.status(404).json({ error: "workshop not found" });
+    const workshopdata = await workshop.findById(req.params.id);
+    if (!workshopdata) {
+      return res.status(404).json({ message: 'Workshop not found' });
     }
-    res.status(200).json({ product });
+    res.status(200).json(workshopdata);
   } catch (error) {
-    console.error("Error fetching workshop:", error);
-    res
-      .status(500)
-      .json({ error: "Error fetching workshop", details: error.message });
+    res.status(500).json({ message: 'Error fetching workshop details', error });
   }
 };
+
