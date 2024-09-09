@@ -4,38 +4,38 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    minlength: 3, // Use 'minlength' instead of 'min'
-    maxlength: 20, // Use 'maxlength' instead of 'max'
+    minlength: 3,
+    maxlength: 20,
     unique: true,
-    trim: true, // Automatically trims whitespace
+    trim: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
     maxlength: 50,
-    lowercase: true, // Converts email to lowercase
-    trim: true, // Removes leading and trailing spaces
+    lowercase: true,
+    trim: true,
   },
   contactNo: {
-    type: String, // Changed to String to handle phone numbers correctly
-    trim: true, // Removes leading and trailing spaces
+    type: String,
+    trim: true,
     validate: {
       validator: function (v) {
-        return /^\d{10}$/.test(v); // Optional: Simple validation for 10-digit phone numbers
+        return /^\d{10}$/.test(v); // Validating 10-digit phone numbers
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
   },
   role: {
     type: String,
-    enum: ["admin", "mentor", "student", "startup"], // Corrected 'enum' spelling
+    enum: ["admin", "mentor", "student", "startup"], // Defines specific user roles
     default: "student",
   },
   password: {
     type: String,
     required: true,
-    minlength: 8, // Use 'minlength' instead of 'min'
+    minlength: 8,
   },
   isAvatarImageSet: {
     type: Boolean,
@@ -44,11 +44,40 @@ const userSchema = new mongoose.Schema({
   avatarImage: {
     type: String,
     default: "",
-    trim: true, // Optional: Trims any unnecessary whitespace
+    trim: true,
   },
   lastMessage: {
-    type: Date, // Date type for storing the last message timestamp
-    default: Date.now, // Optional: Default to current time
+    type: Date,
+    default: Date.now,
+  },
+  // Additional fields for role-specific details
+  startupPersonName: {
+    type: String,
+    required: function () {
+      return this.role === "startup";
+    },
+    trim: true,
+  },
+  industry: {
+    type: String,
+    required: function () {
+      return this.role === "startup";
+    },
+    trim: true,
+  },
+  qualification: {
+    type: String,
+    required: function () {
+      return this.role === "mentor";
+    },
+    trim: true,
+  },
+  fieldOfMentorship: {
+    type: String,
+    required: function () {
+      return this.role === "mentor";
+    },
+    trim: true,
   },
 });
 
