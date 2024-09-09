@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 // Ensure MONGODB_URL is defined in your environment variables
-const MONGODB_URL = process.env.MONGODB_URI;
+const MONGODB_URL = process.env.MONGODB_URI; 
 
-const connectDb = async () => {
+const connectDb = async () => { 
   try {
     await mongoose.connect(MONGODB_URL, {
       useNewUrlParser: true, // Optional: Safe to omit
