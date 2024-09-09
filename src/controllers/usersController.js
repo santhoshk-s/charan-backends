@@ -25,19 +25,25 @@ module.exports.register = async (req, res, next) => {
 
 module.exports.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const usernameCheck = await User.findOne({ username });
-    if (!usernameCheck)
-      return res.json({ msg: "Username or Password incorrect", status: false });
-    const passwordCheck = await bcrypt.compare(
-      password,
-      usernameCheck.password
-    );
-    if (!passwordCheck)
-      return res.json({ msg: "Username or Password incorrect", status: false });
+    const { email, password } = req.body;
 
-    delete usernameCheck.password;
-    return res.json({ status: true, user: usernameCheck });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "Username or Password incorrect", status: false });
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ msg: "Username or Password incorrect", status: false });
+    }
+
+    // Optionally, remove the password from the response
+    const userWithoutPassword = { ...user._doc };
+    delete userWithoutPassword.password;
+
+    // Send back the user data without the password
+    return res.status(200).json({ status: true, user: userWithoutPassword });
   } catch (error) {
     next(error);
   }
@@ -76,9 +82,8 @@ module.exports.getAllUsers = async (req, res, next) => {
 
 module.exports.logOut = (req, res, next) => {
   try {
-    if (!req.params.id) return res.json({ msg: "User id is required " });
-    // onlineUsers.delete(req.params.id);
-    return res.status(200).send();
+    res.clearCookie('jwt'); // Clear the cookie named 'token'
+    return res.status(200).json({ msg: "Logged out successfully" });
   } catch (ex) {
     next(ex);
   }
