@@ -19,6 +19,9 @@ const workshopSchema = mongoose.Schema({
   amount: {
     type: Number,
   },
+  language: {
+    type: String,
+  },
   logo: String,
   logoId: mongoose.Schema.Types.ObjectId,
 });
