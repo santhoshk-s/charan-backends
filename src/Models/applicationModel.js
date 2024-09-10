@@ -1,30 +1,19 @@
 const mongoose = require("mongoose");
 
 const ApplicationSchema = mongoose.Schema({
-  username: {
+  userId: {
     type: String,
   },
-  qualification: {
+  applyId: {
     type: String,
   },
-  email: {
+  acceptanceStatus: {
     type: String,
   },
-  contactno: {
+  paymentStatus: {
     type: String,
   },
-  field: {
-    type: String,
-  },
-  location: {
-    type: String,
-  },
-  areaOfInterest: {
-    type: String,
-  },
-  workMode: {
-    type: String,
-  }
+
 },
 {
   timestamps: true,
