@@ -17,6 +17,35 @@ exports.createApplication = async (req, res, next) => {
   }
 };
 
+exports.updateApplication = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const action = {...req.body};
+
+    console.log(id, action);
+
+    // Find and update the user by ID
+    const intern = await Application.findByIdAndUpdate(id,  action,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!intern) {
+      return res.status(404).json({ message: "application not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "application updated successfully", intern });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 exports.getApplicationById = async (req, res) => {
   try {
     const item = await workshop.findById(req.params.id);
