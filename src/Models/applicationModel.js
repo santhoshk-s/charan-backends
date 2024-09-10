@@ -7,13 +7,19 @@ const ApplicationSchema = mongoose.Schema({
   applyId: {
     type: String,
   },
+  type: {
+    type: String,
+  },
+  coverLetter: {
+    type: String,
+  },
   acceptanceStatus: {
     type: String,
   },
   paymentStatus: {
     type: String,
   },
-
+  
 },
 {
   timestamps: true,
