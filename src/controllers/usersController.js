@@ -96,6 +96,21 @@ module.exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+module.exports.getUsersById = async (req, res, next) => {
+  try {
+    const { role, id } = req.body; 
+    const query = {};
+    if (role) query.role = role;
+    if (id) query._id = id;
+
+    const users = await User.find(query);
+    return res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 module.exports.logOut = (req, res, next) => {
   try {
     res.clearCookie('jwt'); // Clear the cookie named 'token'

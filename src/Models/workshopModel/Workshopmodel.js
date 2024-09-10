@@ -24,6 +24,8 @@ const workshopSchema = mongoose.Schema({
   },
   logo: String,
   logoId: mongoose.Schema.Types.ObjectId,
+},{
+  timestamps: true,
 });
 
 const workshop = mongoose.model("workshop", workshopSchema);
