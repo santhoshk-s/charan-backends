@@ -86,11 +86,11 @@ exports.getImage = (req, res) => {
 };
 exports.getWorkshopById = async (req, res) => {
   try {
-    const workshopdata = await workshop.findById(req.params.id);
-    if (!workshopdata) {
-      return res.status(404).json({ message: 'Workshop not found' });
+    const item = await workshop.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ error: "workshop not found" });
     }
-    res.status(200).json(workshopdata);
+    res.status(200).json({ item });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching workshop details', error });
   }

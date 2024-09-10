@@ -10,6 +10,7 @@ const messageRoute=require("./src/routes/messagesRoute");
 const Users=require('./src/Models/userModel');
 const workshop = require('./src/routes/workShopRoutes/workshopRoutes');
 const internshipRoute = require('./src/routes/internshipRoute');
+const applicationRoute = require('./src/routes/applicationRoute');
 connectDB()
 app.use(cors());
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoute);
 app.use('/api/workshop',workshop)
 app.use('/api/internshipRoute',internshipRoute)
+app.use('/api/application',applicationRoute)
 
 
 
