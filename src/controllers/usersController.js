@@ -119,3 +119,25 @@ module.exports.logOut = (req, res, next) => {
     next(ex);
   }
 };
+
+
+exports.editProfile = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const action = {...req.body};
+    const user = await User.findByIdAndUpdate(id,  action,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ message: "profile updated successfully", user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};

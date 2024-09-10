@@ -15,9 +15,11 @@ const ApplicationSchema = mongoose.Schema({
   },
   acceptanceStatus: {
     type: String,
+    default:'pending'
   },
   paymentStatus: {
     type: String,
+    default:'paid'
   },
   
 },
