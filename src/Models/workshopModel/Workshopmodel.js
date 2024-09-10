@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const workshopSchema = mongoose.Schema({
   workshopname: {
-    tyoe: String,
+    type: String,
   },
   date: {
     type: String,
@@ -18,6 +18,9 @@ const workshopSchema = mongoose.Schema({
   },
   amount: {
     type: Number,
+  },
+  language: {
+    type: String,
   },
   logo: String,
   logoId: mongoose.Schema.Types.ObjectId,

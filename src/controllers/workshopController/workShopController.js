@@ -20,10 +20,10 @@ exports.createWorkshop = async (req, res) => {
         return res.status(400).json({ error: err.message });
       }
 
-      const { workshopname, date, duration, location, abouttheEvent, amount } =
+      const { workshopname, date, duration, location, abouttheEvent, amount,language } =
         req.body;
 
-      const uploadStream = bucket.openUploadStream(req.file.originalname);
+        const uploadStream = bucket.openUploadStream(req.file.originalname);
       uploadStream.end(req.file.buffer);
 
       uploadStream.on("finish", async () => {
@@ -35,6 +35,7 @@ exports.createWorkshop = async (req, res) => {
           location,
           abouttheEvent,
           amount,
+          language,
           logoId: uploadStream.id,
         });
 
