@@ -80,7 +80,6 @@ exports.getImage = (req, res) => {
   });
 
   downloadStream.on("error", (error) => {
-    console.error("Error fetching image:", error);
     res.status(404).json({ error: "Image not found" });
   });
 };
